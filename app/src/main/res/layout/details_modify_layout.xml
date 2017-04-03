@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/DetailsLayout"
+        android:layout_above="@+id/linearLayout12"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp"
+        android:fillViewport="false">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/Code_DateLayout"
+                android:background="#443F51B5">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="IFT-XXXX"
+                    android:id="@+id/coursCode"
+                    android:layout_weight="1"
+                    android:paddingLeft="7dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Date"
+                    android:id="@+id/eventDate"
+                    android:layout_weight="2"
+                    android:paddingRight="7dp"
+                    android:textAlignment="textEnd"
+                    android:singleLine="true"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/Code_DateLayout"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/CourseNameLayout"
+                android:background="#443F51B5">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Nom Cours"
+                    android:id="@+id/coursNom"
+                    android:layout_weight="1"
+                    style="?android:attr/listSeparatorTextViewStyle"
+/>
+
+                <TextView
+                    android:layout_width="137dp"
+                    android:layout_height="wrap_content"
+                    android:text="heure"
+                    android:id="@+id/heure"
+
+                    android:textAlignment="textEnd"
+                    android:paddingRight="7dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/CourseNameLayout"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/EventLayout">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Evenement"
+                    android:id="@+id/nomEvenement"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:layout_weight="0.5"
+                    android:textColor="#101740"
+                    android:paddingTop="7dp"
+                    android:paddingLeft="7dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Type"
+                    android:id="@+id/typeEvenement"
+                    android:layout_weight="0.5"
+                    android:textColor="#182257"
+                    android:paddingTop="7dp"
+                    android:paddingLeft="7dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/AuthorLayout"
+                android:layout_below="@+id/EventLayout"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Cree par "
+                    android:id="@+id/author"
+                    style="?android:attr/listSeparatorTextViewStyle"
+                    android:textAlignment="textEnd"
+                    android:paddingRight="7dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/DescriptionLayout"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/AuthorLayout"
+                android:layout_marginBottom="5dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Description de l&apos;evenment"
+                    android:id="@+id/description"
+                    style="?android:attr/listSeparatorTextViewStyle" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/Place_CapacityLayout"
+                android:layout_below="@+id/DescriptionLayout"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Lieu"
+                    android:id="@+id/eventPlace"
+                    android:layout_weight="1"
+                    android:paddingLeft="7dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="X/Y"
+                    android:id="@+id/eventCapacity"
+                    android:layout_weight="2"
+                    android:paddingRight="7dp"
+                    android:textAlignment="textEnd" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/Place_CapacityLayout"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/PersonsRelativeLayout">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/linearLayout13">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Liste de participants"
+                        android:id="@+id/textView"
+                        android:textAlignment="center"
+                        android:singleLine="true" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/PersonsLayout"
+                    android:layout_below="@+id/linearLayout13"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true">
+
+                    <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="245dp"
+                        android:id="@+id/persons" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ButtonsLayout"
+
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_share_black_24dp"
+            android:id="@+id/shareB"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Partager"
+            android:background="#443F51B5" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Modifier"
+            android:id="@+id/modifyB"
+            android:layout_weight="1"
+            android:drawableLeft="@drawable/ic_mode_edit_black_24dp"
+            android:background="#443F51B5"
+            />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Supprimer"
+            android:id="@+id/supprimerB"
+            android:layout_weight="1"
+            android:background="#443F51B5"
+            />
+    </LinearLayout>
+
+</RelativeLayout>
