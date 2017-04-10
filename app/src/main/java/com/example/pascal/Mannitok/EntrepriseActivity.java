@@ -18,7 +18,7 @@ import android.widget.TextView;
 public class EntrepriseActivity extends AppCompatActivity {
 
     public static Activity accueil;
-    public final int nbOptions=3;
+    public final int nbOptions=4;
     TabLayout options;
     ViewPager contenuBox;
     TextView nomApp,pseudo;
@@ -57,9 +57,9 @@ public class EntrepriseActivity extends AppCompatActivity {
         tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
         tabLayout.setupWithViewPager(contenuBox);
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_wallet_travel_24dp);
-        tabLayout.getTabAt(1).setIcon(R.drawable.ic_45_note_list);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_business_white_24dp);
         tabLayout.getTabAt(2).setIcon(R.drawable.credit_card);
-        tabLayout.getTabAt(2).setIcon(R.drawable.ic_team);
+        tabLayout.getTabAt(3).setIcon(R.drawable.ic_playlist_add_white_24dp);
 
 
     }

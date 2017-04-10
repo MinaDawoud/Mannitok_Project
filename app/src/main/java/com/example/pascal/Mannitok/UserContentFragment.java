@@ -23,8 +23,9 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.example.pascal.Mannitok.Requetes.ListerAllEventsRequest;
+import com.example.pascal.Mannitok.Requetes.ListerArticlesRequest;
 import com.example.pascal.Mannitok.Requetes.ListerCoursRechercheRequest;
-import com.example.pascal.Mannitok.Requetes.ListerCoursRequest;
+import com.example.pascal.Mannitok.Requetes.ListerEntreprisesRequest;
 import com.example.pascal.Mannitok.Requetes.ListerFavorisRequest;
 
 import org.json.JSONException;
@@ -34,7 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class ContentFragment extends Fragment implements AdapterView.OnItemClickListener, View.OnClickListener {
+public class UserContentFragment extends Fragment implements AdapterView.OnItemClickListener, View.OnClickListener {
     LayoutInflater listeInflater;
     String searchCourseID;//ID du cours pour lequel on cherche des evenements
     AutoCompleteTextView search;//champ pour lire le cours pour lequel on va chercher des evenements
@@ -53,6 +54,7 @@ public class ContentFragment extends Fragment implements AdapterView.OnItemClick
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
         Bundle choix = getArguments();
         choixID = choix.getInt("choix"); //On reçoit le TAB sur lequel on a fait click
+
 
         //on va chercher le contexte
         c = getActivity();
@@ -175,9 +177,9 @@ public class ContentFragment extends Fragment implements AdapterView.OnItemClick
             queue = Volley.newRequestQueue(c);
             queue.add(listerAllEventsRequest);
 
-
         }
-        //ONGLET DE LA RECHERCHE DE COURS
+/*********************************************************************************************************/
+        //ONGLET DE LA RECHERCHE DES ARTICLES
         else if(choixID==1) {
             contentBox = inflater.inflate(R.layout.search_list_layout, container, false);
 
@@ -186,11 +188,11 @@ public class ContentFragment extends Fragment implements AdapterView.OnItemClick
            // ListAdapter adapter = new ListAdapter(getActivity(),choixID);
            // liste.setAdapter(adapter);
 
-            final ArrayList<HashMap<String, String>> coursListe = new ArrayList<HashMap<String, String>>();
+            final ArrayList<HashMap<String, String>> articlesListe = new ArrayList<HashMap<String, String>>();
 
             //Le autocomplete
-            //Creer liste complete d'evenements disponibles, à remplir avec l'info de la base de donnees
-            final ArrayList<String> cours=new ArrayList<String>();
+            //Creer liste complete des articles disponibles, à remplir avec l'info de la base de donnees
+            final ArrayList<String> articles=new ArrayList<String>();
 
             //On remplie le ListView (liste) avec les éléments de la réponse du json
 
@@ -205,42 +207,36 @@ public class ContentFragment extends Fragment implements AdapterView.OnItemClick
                         Iterator<?> keys = jsonResponse.keys();
 
                         while( keys.hasNext() ) {
+
                             String key = (String)keys.next();
                             if ( jsonResponse.get(key) instanceof JSONObject ) {
                                 JSONObject row = (JSONObject) jsonResponse.get(key);
 
                                 //chargement pour le autocomplete
-                                cours.add(row.getString("code"));
-                                cours.add(row.getString("titre"));
+                                articles.add(row.getString("articleID"));
 
-
+                                articles.add(row.getString("titre"));
                                 //chargement du listview
                                 HashMap<String, String> map = new HashMap<String, String>();
-                                map.put("code", row.getString("code"));
+                                map.put("articleID", row.getString("articleID"));
                                 map.put("titre", row.getString("titre"));
                                 map.put("categorie", row.getString("categorie"));
-                                String evenement;
-                                if(row.getString("nbrEvent").equals("0") || row.getString("nbrEvent").equals("1")){
-                                    evenement = " évènement";
-                                } else {
-                                    evenement = " évènements";
-                                }
-                                map.put("nbrEvent", row.getString("nbrEvent") + evenement);
+                                map.put("prix", row.getString("prix") + "$");
 
-                                coursListe.add(map);
+                                articlesListe.add(map);
                                 liste = (ListView) contentBox.findViewById(R.id.searchL);
 
                                 android.widget.ListAdapter adapter;
 
-                                boolean estFavori = UserInformation.isFavori(row.getString("code"));
+                                boolean estFavori = UserInformation.isFavori(row.getString("articleID"));
                                 if(estFavori){
-                                    adapter = new SimpleAdapter(c, coursListe, R.layout.search_layout_faved,
-                                            new String[]{"code", "titre", "nbrEvent"},
-                                            new int[]{R.id.courseCode,R.id.coursNom, R.id.nbEvents});
+                                    adapter = new SimpleAdapter(c, articlesListe, R.layout.articles_search_layout_faved,
+                                            new String[]{"articleID", "titre", "prix"},
+                                            new int[]{R.id.articleID,R.id.articleNom, R.id.prix});
                                 } else {
-                                    adapter = new SimpleAdapter(c, coursListe, R.layout.search_layout,
-                                            new String[]{"code", "titre", "nbrEvent"},
-                                            new int[]{R.id.courseCode,R.id.coursNom, R.id.nbEvents});
+                                    adapter = new SimpleAdapter(c, articlesListe, R.layout.articles_search_layout,
+                                            new String[]{"articleID", "titre", "prix"},
+                                            new int[]{R.id.articleID,R.id.articleNom, R.id.prix});
                                 }
 
 
@@ -249,7 +245,7 @@ public class ContentFragment extends Fragment implements AdapterView.OnItemClick
                                 liste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                    cliquerCours(coursListe, position);
+                                    cliquerCours(articlesListe, position);
                                     }
                                 });
 
@@ -264,9 +260,9 @@ public class ContentFragment extends Fragment implements AdapterView.OnItemClick
                 }
             };
             //On crée la requête
-            ListerCoursRequest listerCoursRequest= new ListerCoursRequest(responseListener);
+            ListerArticlesRequest listerArticlesRequest= new ListerArticlesRequest(responseListener);
             queue = Volley.newRequestQueue(c);
-            queue.add(listerCoursRequest);
+            queue.add(listerArticlesRequest);
 
 
 
@@ -274,18 +270,113 @@ public class ContentFragment extends Fragment implements AdapterView.OnItemClick
             Button searchB = (Button) contentBox.findViewById(R.id.searchB);
             searchB.setOnClickListener(this);
             search= (AutoCompleteTextView) contentBox.findViewById(R.id.autoCompleteTextView);
-            ArrayAdapter<String> autoCompleteAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_dropdown_item_1line,cours);
+            ArrayAdapter<String> autoCompleteAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_dropdown_item_1line,articles);
             search.setAdapter(autoCompleteAdapter);
-
-
-
-
-
         }
+
+        /*********************************************************************************************************/
+
+        //ONGLET DE LA RECHERCHE DES ENTREPRISES
+        else if(choixID==2) {
+            contentBox = inflater.inflate(R.layout.search_list_layout, container, false);
+
+            //Obtenir la liste a remplir
+            liste = (ListView) contentBox.findViewById(R.id.searchL);
+            // ListAdapter adapter = new ListAdapter(getActivity(),choixID);
+            // liste.setAdapter(adapter);
+
+            final ArrayList<HashMap<String, String>> entreprisesListe = new ArrayList<HashMap<String, String>>();
+
+            //Le autocomplete
+            //Creer liste complete des entreprises disponibles, à remplir avec l'info de la base de donnees
+            final ArrayList<String> entreprises=new ArrayList<String>();
+
+            //On remplie le ListView (liste) avec les éléments de la réponse du json
+
+            Response.Listener<String> responseListener = new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        //Toast pour voir le json envoyé
+                        //Toast.makeText(c, response, Toast.LENGTH_LONG).show();
+                        JSONObject jsonResponse = new JSONObject(response);
+
+                        Iterator<?> keys = jsonResponse.keys();
+
+                        while( keys.hasNext() ) {
+
+                            String key = (String)keys.next();
+                            if ( jsonResponse.get(key) instanceof JSONObject ) {
+                                JSONObject row = (JSONObject) jsonResponse.get(key);
+
+                                //chargement pour le autocomplete
+                                entreprises.add(row.getString("entrepriseID"));
+
+                                entreprises.add(row.getString("titre"));
+                                //chargement du listview
+                                HashMap<String, String> map = new HashMap<String, String>();
+                                map.put("entrepriseID", row.getString("entrepriseID"));
+                                map.put("titre", row.getString("titre"));
+                                map.put("description", row.getString("description"));
+                                map.put("ville", row.getString("ville"));
+
+                                entreprisesListe.add(map);
+                                liste = (ListView) contentBox.findViewById(R.id.searchL);
+
+                                android.widget.ListAdapter adapter;
+
+                                boolean estFavori = UserInformation.isFavori(row.getString("entrepriseID"));
+                                if(estFavori){
+                                    adapter = new SimpleAdapter(c, entreprisesListe, R.layout.entreprises_search_layout_faved,
+                                            new String[]{"entrepriseID", "titre", "ville"},
+                                            new int[]{R.id.entrepriseID,R.id.entrepriseNom, R.id.ville});
+                                } else {
+                                    adapter = new SimpleAdapter(c, entreprisesListe, R.layout.entreprises_search_layout,
+                                            new String[]{"entrepriseID", "titre", "ville"},
+                                            new int[]{R.id.entrepriseID,R.id.entrepriseNom, R.id.ville});
+                                }
+
+
+                                liste.setAdapter(adapter);
+
+                                liste.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        cliquerCours(entreprisesListe, position);
+                                    }
+                                });
+
+
+                            } else {
+                                Toast.makeText(c, "marche pas", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            //On crée la requête
+            ListerEntreprisesRequest listerEntreprisesRequest= new ListerEntreprisesRequest(responseListener);
+            queue = Volley.newRequestQueue(c);
+            queue.add(listerEntreprisesRequest);
+
+
+
+            //Set le champ autocomplete
+            Button searchB = (Button) contentBox.findViewById(R.id.searchB);
+            searchB.setOnClickListener(this);
+            search= (AutoCompleteTextView) contentBox.findViewById(R.id.autoCompleteTextView);
+            ArrayAdapter<String> autoCompleteAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_dropdown_item_1line,entreprises);
+            search.setAdapter(autoCompleteAdapter);
+        }
+
+        /*********************************************************************************************************/
+
         /*
         POUR L'ONGLET FAVORIS
          */
-        else{
+        else {
             contentBox = inflater.inflate(R.layout.favorite_list_layout, container, false);
             liste = (ListView) contentBox.findViewById(R.id.favoriteL);
             //ListAdapter adapter = new ListAdapter(getActivity(),choixID);

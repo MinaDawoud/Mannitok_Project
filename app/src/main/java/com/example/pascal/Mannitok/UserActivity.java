@@ -18,7 +18,7 @@ import android.widget.TextView;
 public class UserActivity extends AppCompatActivity {
 
     public static Activity accueil;
-    public final int nbOptions=3;
+    public final int nbOptions=4;//nb of tabs
     TabLayout options;
     ViewPager contenuBox;
     TextView nomApp,pseudo;
@@ -59,7 +59,7 @@ public class UserActivity extends AppCompatActivity {
         tabLayout.getTabAt(0).setIcon(R.drawable.ic_wallet_travel_24dp);
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_playlist_add_white_24dp);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_business_white_24dp);
-        tabLayout.getTabAt(2).setIcon(R.drawable.ic_grade_48pt);
+        tabLayout.getTabAt(3).setIcon(R.drawable.ic_grade_48pt);
 
 
     }
@@ -89,7 +89,7 @@ public class UserActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            ContentFragment fragment=new ContentFragment();
+            UserContentFragment fragment=new UserContentFragment();
             Bundle choix = new Bundle();
             choix.putInt("choix",position);
             fragment.setArguments(choix);
